@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProLift Garage Doors</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0D1B2A;
+      --navy-mid: #162233;
+      --steel: #1E3A5F;
+      --orange: #E85D04;
+      --orange-light: #FF7A1F;
+      --silver: #C8D6E5;
+      --silver-light: #EBF0F7;
+      --white: #F8FAFC;
+      --text: #0D1B2A;
+      --text-muted: #5A7089;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Mulish', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── PAGE SYSTEM ─── */
+    .page { display: none; min-height: 100vh; padding-top: 72px; }
+    .page.active { display: block; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 72px;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      border-bottom: 3px solid var(--orange);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.7rem;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--orange);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .logo-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 800; letter-spacing: 0.03em;
+      color: #fff;
+      line-height: 1;
+    }
+    .logo-text span { color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 0.3rem; list-style: none; }
+    .nav-links button {
+      background: none; border: none; cursor: pointer;
+      font-family: 'Mulish', sans-serif;
+      font-size: 0.92rem; font-weight: 600;
+      color: var(--silver);
+      padding: 0.5rem 1rem; border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      letter-spacing: 0.03em;
+    }
+    .nav-links button:hover, .nav-links button.active {
+      color: #fff; background: rgba(255,255,255,0.08);
+    }
+    .nav-links button.active { color: var(--orange); }
+    .nav-cta-btn {
+      background: var(--orange) !important;
+      color: #fff !important;
+      padding: 0.55rem 1.3rem !important;
+      border-radius: 50px !important;
+      font-weight: 700 !important;
+    }
+    .nav-cta-btn:hover { background: var(--orange-light) !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--navy);
+      min-height: calc(100vh - 72px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-bg-lines {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 80px,
+          rgba(255,255,255,0.02) 80px,
+          rgba(255,255,255,0.02) 81px
+        );
+    }
+    .hero-content {
+      padding: 5rem 5% 5rem 8%;
+      position: relative; z-index: 2;
+      animation: heroFade 0.8s ease both;
+    }
+    @keyframes heroFade {
+      from { opacity: 0; transform: translateX(-30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(232,93,4,0.15);
+      border: 1px solid rgba(232,93,4,0.4);
+      color: var(--orange-light);
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 50px;
+      margin-bottom: 1.8rem;
+    }
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3rem, 5.5vw, 5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 .highlight {
+      color: var(--orange);
+      display: block;
+    }
+    .hero-sub {
+      color: var(--silver);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .btn-primary {
+      background: var(--orange); color: #fff;
+      padding: 0.9rem 2rem; border-radius: 6px;
+      text-decoration: none; font-weight: 700; font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block; border: none; cursor: pointer;
+      font-family: 'Mulish', sans-serif;
+    }
+    .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: #fff;
+      border: 2px solid rgba(255,255,255,0.3);
+      padding: 0.9rem 2rem; border-radius: 6px;
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      display: inline-block; cursor: pointer;
+      font-family: 'Mulish', sans-serif;
+    }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+    .hero-stats {
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .hero-stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem; font-weight: 700; color: var(--orange);
+      line-height: 1;
+    }
+    .hero-stat-label { color: var(--silver); font-size: 0.8rem; margin-top: 0.2rem; }
+
+    .hero-visual {
+      position: relative; height: 100%;
+      min-height: 500px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 4rem 5% 4rem 2rem;
+    }
+    .garage-illustration {
+      width: 100%; max-width: 500px;
+      position: relative;
+    }
+    .garage-door-svg {
+      width: 100%; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.5));
+    }
+    .badge-float {
+      position: absolute;
+      background: var(--orange);
+      color: #fff;
+      border-radius: 12px;
+      padding: 0.8rem 1.1rem;
+      font-size: 0.82rem; font-weight: 700;
+      box-shadow: 0 8px 24px rgba(232,93,4,0.4);
+      animation: floatBadge 3s ease-in-out infinite;
+    }
+    .badge-float.top-right { top: 15%; right: 0; animation-delay: 0s; }
+    .badge-float.bottom-left { bottom: 20%; left: -2rem; animation-delay: 1.5s; }
+    .badge-float strong { display: block; font-size: 1.1rem; }
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ─── SERVICES STRIP ─── */
+    .services-strip {
+      background: var(--steel);
+      padding: 3rem 5%;
+    }
+    .strip-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .strip-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.2s;
+    }
+    .strip-item:hover { background: rgba(255,255,255,0.1); }
+    .strip-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .strip-label { color: #fff; font-weight: 600; font-size: 0.92rem; }
+    .strip-sub { color: var(--silver); font-size: 0.78rem; }
+
+    /* ─── ABOUT / WHY SECTION ─── */
+    .why-section {
+      padding: 6rem 5%;
+      background: var(--white);
+    }
+    .why-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .section-eyebrow {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--orange);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      font-weight: 800; text-transform: uppercase;
+      line-height: 1.05; letter-spacing: 0.02em;
+      margin-bottom: 1.2rem;
+    }
+    .section-body { color: var(--text-muted); line-height: 1.75; margin-bottom: 2rem; font-size: 0.98rem; }
+    .trust-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .trust-item {
+      background: var(--silver-light);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      border-left: 3px solid var(--orange);
+    }
+    .trust-item strong { display: block; font-weight: 700; margin-bottom: 0.2rem; font-size: 0.95rem; }
+    .trust-item span { font-size: 0.83rem; color: var(--text-muted); }
+
+    .why-visual-stack { position: relative; }
+    .cert-card {
+      background: var(--navy);
+      color: #fff;
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .cert-card::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      background: var(--orange);
+      border-radius: 50%; opacity: 0.08;
+    }
+    .cert-card-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+    .cert-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      text-transform: uppercase; margin-bottom: 0.8rem;
+    }
+    .cert-card p { color: var(--silver); font-size: 0.9rem; line-height: 1.7; }
+    .cert-pill {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-size: 0.8rem; font-weight: 700;
+      padding: 0.3rem 0.8rem; border-radius: 50px;
+      margin-top: 1.2rem;
+    }
+    .review-float {
+      position: absolute; bottom: -1.5rem; right: -1rem;
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1rem 1.3rem;
+      box-shadow: 0 12px 32px rgba(13,27,42,0.15);
+      font-size: 0.85rem;
+    }
+    .review-stars { color: #F5A623; font-size: 1rem; margin-bottom: 0.2rem; }
+    .review-float strong { display: block; font-weight: 700; }
+
+    /* ─── PRICING PAGE ─── */
+    .pricing-hero {
+      background: var(--navy);
+      padding: 5rem 5% 4rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .pricing-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent, transparent 40px,
+        rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px
+      );
+    }
+    .pricing-hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800; text-transform: uppercase;
+      color: #fff; margin-bottom: 1rem; position: relative;
+    }
+    .pricing-hero h1 span { color: var(--orange); }
+    .pricing-hero p {
+      color: var(--silver); font-size: 1.05rem; max-width: 560px; margin: 0 auto;
+      position: relative;
+    }
+    .pricing-disclaimer {
+      background: rgba(232,93,4,0.15);
+      border: 1px solid rgba(232,93,4,0.3);
+      color: var(--orange-light);
+      border-radius: var(--radius);
+      padding: 0.9rem 1.5rem;
+      font-size: 0.88rem;
+      max-width: 700px; margin: 2rem auto 0;
+      position: relative;
+    }
+
+    .pricing-section {
+      padding: 5rem 5%;
+      background: var(--white);
+    }
+    .pricing-section + .pricing-section {
+      background: var(--silver-light);
+    }
+    .pricing-section-inner { max-width: 1100px; margin: 0 auto; }
+    .pricing-section-header { margin-bottom: 2.5rem; }
+    .pricing-section-header h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .pricing-section-header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 0.4rem; }
+
+    .pricing-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.92rem;
+      background: #fff;
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: 0 4px 20px rgba(13,27,42,0.07);
+    }
+    .pricing-table thead {
+      background: var(--navy);
+      color: #fff;
+    }
+    .pricing-table th {
+      padding: 1rem 1.3rem;
+      text-align: left; font-weight: 700;
+      font-size: 0.82rem; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .pricing-table td {
+      padding: 0.95rem 1.3rem;
+      border-bottom: 1px solid var(--silver-light);
+      vertical-align: middle;
+    }
+    .pricing-table tr:last-child td { border-bottom: none; }
+    .pricing-table tr:hover td { background: #f5f8fc; }
+    .price-cell {
+      font-weight: 700; color: var(--navy);
+      font-size: 1rem; white-space: nowrap;
+    }
+    .price-range { color: var(--orange); }
+    .service-name { font-weight: 600; }
+    .service-desc { font-size: 0.83rem; color: var(--text-muted); margin-top: 0.15rem; }
+    .tag-pill {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
+      padding: 0.2rem 0.6rem; border-radius: 50px;
+      text-transform: uppercase;
+    }
+    .tag-popular { background: rgba(232,93,4,0.12); color: var(--orange); }
+    .tag-urgent { background: rgba(220,38,38,0.1); color: #dc2626; }
+    .tag-common { background: rgba(30,58,95,0.1); color: var(--steel); }
+
+    .package-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .package-card {
+      background: #fff;
+      border: 2px solid var(--silver);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .package-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(13,27,42,0.1); }
+    .package-card.featured {
+      border-color: var(--orange);
+      background: var(--navy);
+      color: #fff;
+    }
+    .package-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--orange); color: #fff;
+      font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.3rem 1rem; border-radius: 50px;
+    }
+    .package-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.03em; margin-bottom: 0.3rem;
+    }
+    .package-card.featured .package-name { color: #fff; }
+    .package-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.8rem; font-weight: 700; color: var(--orange);
+      line-height: 1; margin: 0.8rem 0;
+    }
+    .package-price span { font-size: 1rem; font-family: 'Mulish', sans-serif; color: var(--text-muted); }
+    .package-card.featured .package-price span { color: var(--silver); }
+    .package-desc {
+      font-size: 0.88rem; color: var(--text-muted);
+      margin-bottom: 1.5rem; line-height: 1.6;
+    }
+    .package-card.featured .package-desc { color: var(--silver); }
+    .package-features { list-style: none; margin-bottom: 1.8rem; }
+    .package-features li {
+      display: flex; align-items: center; gap: 0.7rem;
+      font-size: 0.88rem; padding: 0.4rem 0;
+      border-bottom: 1px solid var(--silver-light);
+    }
+    .package-card.featured .package-features li { border-color: rgba(255,255,255,0.1); }
+    .package-features li::before { content: '✓'; color: var(--orange); font-weight: 700; flex-shrink: 0; }
+    .package-cta {
+      display: block; text-align: center;
+      padding: 0.85rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.9rem;
+      cursor: pointer; border: none; font-family: 'Mulish', sans-serif;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+    .package-cta-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 2px solid var(--navy);
+    }
+    .package-cta-outline:hover { background: var(--navy); color: #fff; }
+    .package-cta-filled {
+      background: var(--orange); color: #fff;
+    }
+    .package-cta-filled:hover { background: var(--orange-light); transform: translateY(-2px); }
+
+    .note-box {
+      background: var(--silver-light);
+      border-left: 4px solid var(--steel);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.2rem 1.5rem;
+      font-size: 0.88rem; color: var(--text-muted);
+      line-height: 1.65; margin-top: 2rem;
+    }
+    .note-box strong { color: var(--text); }
+
+    /* ─── CONTACT PAGE ─── */
+    .contact-hero {
+      background: var(--navy);
+      padding: 4rem 5% 3rem;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .contact-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        90deg, transparent, transparent 60px,
+        rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px
+      );
+    }
+    .contact-hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 800; text-transform: uppercase;
+      color: #fff; margin-bottom: 0.8rem; position: relative;
+    }
+    .contact-hero h1 span { color: var(--orange); }
+    .contact-hero p { color: var(--silver); font-size: 1rem; position: relative; }
+
+    .contact-section {
+      padding: 5rem 5%;
+      background: var(--white);
+    }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      max-width: 1100px; margin: 0 auto;
+      align-items: start;
+    }
+    .contact-info-block h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem; font-weight: 800; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .contact-info-block p { color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem; }
+    .contact-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--silver-light);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      border: 1px solid var(--silver);
+      transition: border-color 0.2s;
+    }
+    .contact-card:hover { border-color: var(--orange); }
+    .contact-card-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: var(--navy);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .contact-card-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.15rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .contact-card-value { font-weight: 700; font-size: 0.98rem; }
+    .emergency-band {
+      background: var(--orange);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 1.3rem 1.5rem;
+      margin-top: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .emergency-band-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .emergency-band strong { display: block; font-weight: 800; margin-bottom: 0.1rem; }
+    .emergency-band span { font-size: 0.85rem; opacity: 0.9; }
+
+    .contact-form-card {
+      background: var(--white);
+      border: 2px solid var(--silver);
+      border-radius: 20px;
+      padding: 2.5rem;
+    }
+    .contact-form-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 800; text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .contact-form-card > p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.8rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1.1rem; }
+    label { display: block; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.4rem; color: var(--text); }
+    input, select, textarea {
+      width: 100%; padding: 0.75rem 1rem;
+      background: var(--silver-light);
+      border: 2px solid var(--silver);
+      border-radius: 8px;
+      font-family: 'Mulish', sans-serif;
+      font-size: 0.93rem; color: var(--text);
+      transition: border-color 0.2s, background 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--orange); background: #fff;
+    }
+    textarea { resize: vertical; min-height: 110px; }
+    .form-submit {
+      width: 100%; background: var(--orange); color: #fff;
+      border: none; padding: 1rem; border-radius: 8px;
+      font-family: 'Mulish', sans-serif; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.03em; text-transform: uppercase;
+    }
+    .form-submit:hover { background: var(--orange-light); transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy);
+      color: var(--silver);
+      text-align: center;
+      padding: 2rem 5%;
+      font-size: 0.85rem;
+      border-top: 3px solid var(--orange);
+    }
+    footer strong { color: #fff; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero-content { padding: 4rem 5%; }
+      .why-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav-links button:not(.nav-cta-btn) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav>
+  <a href="#" class="nav-logo" onclick="showPage('home')">
+    <div class="logo-icon">🚪</div>
+    <div class="logo-text">Pro<span>Lift</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><button onclick="showPage('home')" id="nav-home" class="active">Home</button></li>
+    <li><button onclick="showPage('pricing')" id="nav-pricing">Pricing Guide</button></li>
+    <li><button onclick="showPage('contact')" id="nav-contact" class="nav-cta-btn">Contact Us</button></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HOME PAGE
+═══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-lines"></div>
+    <div class="hero-content">
+      <div class="hero-badge">⚡ Same-Day Service Available</div>
+      <h1>
+        Garage Door
+        <span class="highlight">Repair &</span>
+        <span class="highlight">Replacement</span>
+      </h1>
+      <p class="hero-sub">Fast, honest, and built to last. From broken springs to full door replacements, we handle every job with expertise and upfront pricing.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="showPage('contact')">Get a Free Estimate</button>
+        <button class="btn-outline" onclick="showPage('pricing')">View Pricing Guide</button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">2,000+</div>
+          <div class="hero-stat-label">Doors Repaired</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">12 yrs</div>
+          <div class="hero-stat-label">In Business</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">4.9 ★</div>
+          <div class="hero-stat-label">Avg. Rating</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">24/7</div>
+          <div class="hero-stat-label">Emergency Line</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <!-- SVG Garage Door Illustration -->
+      <div class="garage-illustration">
+        <svg class="garage-door-svg" viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
+          <!-- Garage wall -->
+          <rect x="0" y="0" width="480" height="380" rx="12" fill="#162233"/>
+          <!-- Door frame -->
+          <rect x="40" y="40" width="400" height="300" rx="4" fill="#0D1B2A" stroke="#1E3A5F" stroke-width="3"/>
+          <!-- Panel rows -->
+          <g fill="#1A3050" stroke="#243D56" stroke-width="1.5">
+            <rect x="50" y="50" width="380" height="58" rx="3"/>
+            <rect x="50" y="116" width="380" height="58" rx="3"/>
+            <rect x="50" y="182" width="380" height="58" rx="3"/>
+            <rect x="50" y="248" width="380" height="68" rx="3"/>
+          </g>
+          <!-- Panel dividers vertical -->
+          <line x1="240" y1="50" x2="240" y2="316" stroke="#243D56" stroke-width="1.5"/>
+          <line x1="145" y1="50" x2="145" y2="316" stroke="#1E3A5F" stroke-width="1" opacity="0.5"/>
+          <line x1="335" y1="50" x2="335" y2="316" stroke="#1E3A5F" stroke-width="1" opacity="0.5"/>
+          <!-- Highlight edge glow -->
+          <rect x="50" y="50" width="380" height="266" rx="3" fill="none" stroke="#E85D04" stroke-width="1.5" opacity="0.4"/>
+          <!-- Handle -->
+          <rect x="215" y="305" width="50" height="8" rx="4" fill="#E85D04"/>
+          <!-- Track rails -->
+          <rect x="30" y="40" width="8" height="300" rx="4" fill="#243D56"/>
+          <rect x="442" y="40" width="8" height="300" rx="4" fill="#243D56"/>
+          <!-- Orange accent lights bottom -->
+          <rect x="50" y="318" width="380" height="4" rx="2" fill="#E85D04" opacity="0.6"/>
+          <!-- Window panes on top panel -->
+          <rect x="70" y="62" width="80" height="34" rx="3" fill="#0A1520" stroke="#E85D04" stroke-width="1" opacity="0.7"/>
+          <rect x="200" y="62" width="80" height="34" rx="3" fill="#0A1520" stroke="#E85D04" stroke-width="1" opacity="0.7"/>
+          <rect x="330" y="62" width="80" height="34" rx="3" fill="#0A1520" stroke="#E85D04" stroke-width="1" opacity="0.7"/>
+          <!-- Ground shadow -->
+          <ellipse cx="240" cy="375" rx="200" ry="6" fill="#000" opacity="0.3"/>
+        </svg>
+        <div class="badge-float top-right">
+          <strong>Same Day</strong>
+          Service
+        </div>
+        <div class="badge-float bottom-left">
+          <strong>Licensed &</strong>
+          Insured
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE STRIP -->
+  <div class="services-strip">
+    <div class="strip-inner">
+      <div class="strip-item">
+        <div class="strip-icon">🔩</div>
+        <div>
+          <div class="strip-label">Spring Repair</div>
+          <div class="strip-sub">Torsion & extension</div>
+        </div>
+      </div>
+      <div class="strip-item">
+        <div class="strip-icon">🚪</div>
+        <div>
+          <div class="strip-label">Door Replacement</div>
+          <div class="strip-sub">All styles & materials</div>
+        </div>
+      </div>
+      <div class="strip-item">
+        <div class="strip-icon">📡</div>
+        <div>
+          <div class="strip-label">Opener Install</div>
+          <div class="strip-sub">Smart & standard</div>
+        </div>
+      </div>
+      <div class="strip-item">
+        <div class="strip-icon">🔧</div>
+        <div>
+          <div class="strip-label">Cable & Track</div>
+          <div class="strip-sub">Repair & realignment</div>
+        </div>
+      </div>
+      <div class="strip-item">
+        <div class="strip-icon">⚡</div>
+        <div>
+          <div class="strip-label">Emergency Service</div>
+          <div class="strip-sub">24/7 response</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY US -->
+  <section class="why-section">
+    <div class="why-inner">
+      <div>
+        <div class="section-eyebrow">Why ProLift</div>
+        <h2 class="section-title">We don't just fix doors.<br>We fix them right.</h2>
+        <p class="section-body">For over 12 years, ProLift has been the trusted name for garage door work in this community. No bait-and-switch pricing. No upsells you don't need. Just quality craftsmanship and service you can count on.</p>
+        <div class="trust-grid">
+          <div class="trust-item">
+            <strong>Upfront Pricing</strong>
+            <span>You see the full cost before any work begins.</span>
+          </div>
+          <div class="trust-item">
+            <strong>1-Year Warranty</strong>
+            <span>All parts and labor covered for 12 months.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Same-Day Service</strong>
+            <span>Most repairs completed the same day you call.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Licensed & Insured</strong>
+            <span>Full liability coverage on every job.</span>
+          </div>
+        </div>
+        <div style="margin-top:2rem;">
+          <button class="btn-primary" onclick="showPage('contact')">Schedule a Service →</button>
+        </div>
+      </div>
+      <div class="why-visual-stack">
+        <div class="cert-card">
+          <span class="cert-card-icon">🏆</span>
+          <h3>Top Rated<br>Local Service</h3>
+          <p>Consistently rated #1 in customer satisfaction for garage door services in the area by verified homeowners.</p>
+          <span class="cert-pill">Over 400 Five-Star Reviews</span>
+        </div>
+        <div class="review-float">
+          <div class="review-stars">★★★★★</div>
+          <strong>"Fixed in under an hour!"</strong>
+          <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.2rem;">— Mike T., verified customer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>ProLift Garage Doors</strong> — Licensed, Insured &amp; Ready to Help &nbsp;|&nbsp;
+    <a href="#" onclick="showPage('contact')" style="color:var(--orange); text-decoration:none;">Call (555) 987-6543</a>
+    <div style="margin-top:0.5rem; opacity:0.5; font-size:0.78rem;">© 2026 ProLift Garage Doors. All rights reserved.</div>
+  </footer>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PRICING PAGE
+═══════════════════════════════════════════ -->
+<div id="page-pricing" class="page">
+
+  <div class="pricing-hero">
+    <h1>Pricing <span>Guide</span></h1>
+    <p>Transparent, honest pricing for every service we offer. All quotes are free — call or fill out the form for a final estimate.</p>
+    <div class="pricing-disclaimer">
+      ⚠️ <strong>These are estimated price ranges.</strong> Final pricing depends on door size, brand, condition, and local labor rates. Contact us for a free, no-obligation quote.
+    </div>
+  </div>
+
+  <!-- REPAIRS -->
+  <section class="pricing-section">
+    <div class="pricing-section-inner">
+      <div class="pricing-section-header">
+        <div class="section-eyebrow">Common Repairs</div>
+        <h2 class="section-title">Repair Services</h2>
+        <p>Fast diagnosis and same-day repair on most issues.</p>
+      </div>
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Estimated Cost</th>
+            <th>Typical Time</th>
+            <th>Tag</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="service-name">Torsion Spring Replacement</div>
+              <div class="service-desc">Single or double spring; includes hardware inspection</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$180 – $320</span></td>
+            <td>1 – 2 hrs</td>
+            <td><span class="tag-pill tag-popular">Most Common</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Extension Spring Replacement</div>
+              <div class="service-desc">Per spring; recommended to replace both sides</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$95 – $180</span></td>
+            <td>1 hr</td>
+            <td><span class="tag-pill tag-common">Common</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Broken Cable Repair</div>
+              <div class="service-desc">Lift cables; includes pulley inspection</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$130 – $200</span></td>
+            <td>1 – 1.5 hrs</td>
+            <td><span class="tag-pill tag-popular">Most Common</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Off-Track Door Repair</div>
+              <div class="service-desc">Realign rollers and track; check for damage</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$125 – $250</span></td>
+            <td>1 – 2 hrs</td>
+            <td><span class="tag-pill tag-urgent">Urgent</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Roller Replacement</div>
+              <div class="service-desc">Full set of rollers (10–12 rollers per door)</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$95 – $175</span></td>
+            <td>45 min</td>
+            <td><span class="tag-pill tag-common">Common</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Panel Replacement</div>
+              <div class="service-desc">Single damaged panel; price varies by door brand</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$200 – $600</span></td>
+            <td>1 – 3 hrs</td>
+            <td><span class="tag-pill tag-common">Common</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Weather Seal Replacement</div>
+              <div class="service-desc">Bottom seal and side seals</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$75 – $140</span></td>
+            <td>30 – 45 min</td>
+            <td><span class="tag-pill tag-common">Common</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Emergency After-Hours Call</div>
+              <div class="service-desc">After 8pm weekdays, or weekends; includes service call fee</div>
+            </td>
+            <td class="price-cell"><span class="price-range">+$75 – $125</span></td>
+            <td>Varies</td>
+            <td><span class="tag-pill tag-urgent">After Hours</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note-box">
+        <strong>Note:</strong> A standard <strong>service call / diagnostic fee of $49–$75</strong> applies to all repair visits. This fee is waived if you proceed with the repair.
+      </div>
+    </div>
+  </section>
+
+  <!-- OPENERS -->
+  <section class="pricing-section">
+    <div class="pricing-section-inner">
+      <div class="pricing-section-header">
+        <div class="section-eyebrow">Garage Door Openers</div>
+        <h2 class="section-title">Opener Installation</h2>
+        <p>Includes professional installation, programming, and safety sensor setup.</p>
+      </div>
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>Opener Type</th>
+            <th>Installed Price</th>
+            <th>Best For</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="service-name">Chain Drive Opener</div>
+              <div class="service-desc">Reliable and affordable; slightly louder operation</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$250 – $400</span></td>
+            <td>Detached garages</td>
+            <td><span class="tag-pill tag-common">Budget Pick</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Belt Drive Opener</div>
+              <div class="service-desc">Quiet, smooth operation; great for attached garages</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$320 – $500</span></td>
+            <td>Attached garages</td>
+            <td><span class="tag-pill tag-popular">Most Popular</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Smart Wi-Fi Opener</div>
+              <div class="service-desc">App control, alerts, voice assistant compatible</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$400 – $650</span></td>
+            <td>Smart home users</td>
+            <td><span class="tag-pill tag-popular">Trending</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="service-name">Jackshaft / Side-Mount Opener</div>
+              <div class="service-desc">Mounts beside door; maximizes ceiling space</div>
+            </td>
+            <td class="price-cell"><span class="price-range">$550 – $850</span></td>
+            <td>Low ceilings / RVs</td>
+            <td><span class="tag-pill tag-common">Specialty</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- NEW DOORS -->
+  <section class="pricing-section">
+    <div class="pricing-section-inner">
+      <div class="pricing-section-header">
+        <div class="section-eyebrow">New Door Installation</div>
+        <h2 class="section-title">Replacement Packages</h2>
+        <p>Full door + hardware + installation. Prices are for a standard single-car door (8'×7'); double-car doors are typically 40–60% more.</p>
+      </div>
+      <div class="package-grid">
+        <div class="package-card">
+          <div class="package-name">Essential</div>
+          <div class="package-price">$850 <span>starting</span></div>
+          <div class="package-desc">Steel single-layer door. Practical, durable, and budget-friendly for everyday use.</div>
+          <ul class="package-features">
+            <li>Steel single-layer construction</li>
+            <li>Standard lift hardware</li>
+            <li>Basic weather sealing</li>
+            <li>White or brown finish</li>
+            <li>1-year labor warranty</li>
+          </ul>
+          <button class="package-cta package-cta-outline" onclick="showPage('contact')">Get a Quote</button>
+        </div>
+        <div class="package-card featured">
+          <div class="package-badge">Most Popular</div>
+          <div class="package-name">Classic</div>
+          <div class="package-price">$1,400 <span>starting</span></div>
+          <div class="package-desc">Insulated steel door. Better energy efficiency, quieter operation, and more style options.</div>
+          <ul class="package-features">
+            <li>Double-layer insulated steel</li>
+            <li>R-6 insulation value</li>
+            <li>Reinforced struts</li>
+            <li>10+ color/finish options</li>
+            <li>Window panel upgrades available</li>
+            <li>2-year parts & labor warranty</li>
+          </ul>
+          <button class="package-cta package-cta-filled" onclick="showPage('contact')">Get a Quote</button>
+        </div>
+        <div class="package-card">
+          <div class="package-name">Premium</div>
+          <div class="package-price">$2,200 <span>starting</span></div>
+          <div class="package-desc">High-end carriage house or custom steel. Maximum curb appeal and insulation.</div>
+          <ul class="package-features">
+            <li>Triple-layer insulated construction</li>
+            <li>R-18+ insulation value</li>
+            <li>Carriage or modern style</li>
+            <li>Custom color matching</li>
+            <li>Decorative hardware included</li>
+            <li>Smart opener bundle available</li>
+            <li>3-year parts & labor warranty</li>
+          </ul>
+          <button class="package-cta package-cta-outline" onclick="showPage('contact')">Get a Quote</button>
+        </div>
+      </div>
+      <div class="note-box">
+        <strong>Installation included.</strong> All door packages include professional installation, haul-away of your old door, and a full system tune-up. Double-car doors, wood doors, or custom sizes will be quoted separately. <a href="#" onclick="showPage('contact'); return false;" style="color:var(--orange);">Contact us for a precise quote.</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <strong>ProLift Garage Doors</strong> — Transparent Pricing, Quality Work &nbsp;|&nbsp;
+    <a href="#" onclick="showPage('contact')" style="color:var(--orange); text-decoration:none;">Call (555) 987-6543</a>
+    <div style="margin-top:0.5rem; opacity:0.5; font-size:0.78rem;">© 2026 ProLift Garage Doors. All rights reserved.</div>
+  </footer>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     CONTACT PAGE
+═══════════════════════════════════════════ -->
+<div id="page-contact" class="page">
+
+  <div class="contact-hero">
+    <h1>Contact <span>Us</span></h1>
+    <p>Call, text, or fill out the form — we'll get back to you fast.</p>
+  </div>
+
+  <section class="contact-section">
+    <div class="contact-inner">
+      <div class="contact-info-block">
+        <h2>Reach Our Team</h2>
+        <p>We're local, we're fast, and we pick up the phone. Whether you need an emergency repair or want to schedule a free estimate, we're here to help.</p>
+        <div class="contact-cards">
+          <div class="contact-card">
+            <div class="contact-card-icon">📞</div>
+            <div>
+              <div class="contact-card-label">Phone / Text</div>
+              <div class="contact-card-value">(555) 987-6543</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">📧</div>
+            <div>
+              <div class="contact-card-label">Email</div>
+              <div class="contact-card-value">service@proliftdoors.com</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">🕐</div>
+            <div>
+              <div class="contact-card-label">Business Hours</div>
+              <div class="contact-card-value">Mon–Sat: 7am – 7pm</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">📍</div>
+            <div>
+              <div class="contact-card-label">Service Area</div>
+              <div class="contact-card-value">Greater Metro Area & Surrounding</div>
+            </div>
+          </div>
+        </div>
+        <div class="emergency-band">
+          <div class="emergency-band-icon">🚨</div>
+          <div>
+            <strong>24/7 Emergency Service</strong>
+            <span>Door stuck open or won't close? Call our emergency line anytime.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-card">
+        <h3>Request a Service</h3>
+        <p>Fill out the form and we'll follow up within 1 business hour during normal hours.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="c-fname">First Name</label>
+            <input type="text" id="c-fname" placeholder="Jane" />
+          </div>
+          <div class="form-group">
+            <label for="c-lname">Last Name</label>
+            <input type="text" id="c-lname" placeholder="Doe" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="c-phone">Phone Number</label>
+          <input type="tel" id="c-phone" placeholder="(555) 000-0000" />
+        </div>
+        <div class="form-group">
+          <label for="c-email">Email Address</label>
+          <input type="email" id="c-email" placeholder="jane@email.com" />
+        </div>
+        <div class="form-group">
+          <label for="c-service">Service Needed</label>
+          <select id="c-service">
+            <option value="">Select a service…</option>
+            <option>Spring Repair / Replacement</option>
+            <option>Cable Repair</option>
+            <option>Off-Track Door</option>
+            <option>Opener Installation / Repair</option>
+            <option>New Door Replacement</option>
+            <option>Roller / Hardware Replacement</option>
+            <option>General Tune-Up / Maintenance</option>
+            <option>Emergency Service</option>
+            <option>Other / Not Sure</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="c-timing">Preferred Timing</label>
+          <select id="c-timing">
+            <option value="">Select…</option>
+            <option>ASAP / Emergency</option>
+            <option>Today or Tomorrow</option>
+            <option>This Week</option>
+            <option>Next Week or Later</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="c-message">Additional Details</label>
+          <textarea id="c-message" placeholder="Describe the problem, door type, or any other details that might help…"></textarea>
+        </div>
+        <button class="form-submit" onclick="handleContactSubmit()">Submit Service Request →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <strong>ProLift Garage Doors</strong> — Licensed, Insured &amp; Always Nearby &nbsp;|&nbsp;
+    <span style="color:var(--orange);">(555) 987-6543</span>
+    <div style="margin-top:0.5rem; opacity:0.5; font-size:0.78rem;">© 2026 ProLift Garage Doors. All rights reserved.</div>
+  </footer>
+</div>
+
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById('nav-' + name);
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Animate cards in on pricing page
+    if (name === 'pricing' || name === 'contact') {
+      setTimeout(() => {
+        document.querySelectorAll('#page-' + name + ' .package-card, #page-' + name + ' .contact-card').forEach((el, i) => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(20px)';
+          el.style.transition = `opacity 0.4s ${i * 0.08}s ease, transform 0.4s ${i * 0.08}s ease`;
+          requestAnimationFrame(() => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          });
+        });
+      }, 50);
+    }
+  }
+
+  function handleContactSubmit() {
+    const name = document.getElementById('c-fname').value.trim();
+    const phone = document.getElementById('c-phone').value.trim();
+    const service = document.getElementById('c-service').value;
+    if (!name || !phone || !service) {
+      alert('Please fill in your name, phone number, and the service you need.');
+      return;
+    }
+    alert('Thanks, ' + name + '! We received your request and will call you back within 1 business hour. 🚪');
+  }
+
+  // Scroll-triggered fade in for service strip and trust items
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.strip-item, .trust-item').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = `opacity 0.45s ${i * 0.07}s ease, transform 0.45s ${i * 0.07}s ease`;
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
